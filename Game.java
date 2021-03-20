@@ -29,7 +29,12 @@ public class Game {
         this.max_Y = y;
         taille = max_X * max_Y;
         Grille = new HashMap<Coord, Integer>();
-
+        for (int i = 0; i < max_X; i++) {
+            for (int j = 0; j < max_Y; j++) {
+                Coord Encours = new Coord(i,j);
+                Grille.put(Encours,2);
+            }
+        }
     }
 
     private void spawn() {
@@ -111,7 +116,7 @@ public class Game {
     public static void main(String[] args) {
 
         Game game = new Game(4);
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 5; i++) {
             Coord testing = new Coord(2, 3);
             System.out.println(game);
             System.out.println("\n" + game.move(testing, 0, 1));
@@ -128,7 +133,3 @@ public class Game {
     }
 
 }
-
-//TODO Spawning des tuile
-//TODO Simplifier le move
-//TODO Trouver Solution fin de jeu

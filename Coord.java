@@ -2,10 +2,19 @@ import java.util.Objects;
 
 public class Coord {
     int x, y;
+    static final Coord LEFT = new Coord(0, -1);
+    static final Coord RIGHT = new Coord(0, 1);
+    static final Coord UP = new Coord(-1, 0);
+    static final Coord DOWN = new Coord(1, 0);
 
     public Coord(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Coord() {
+        x = -1;
+        y = -1;
     }
 
     public String toString() {
@@ -36,6 +45,16 @@ public class Coord {
             }
         }
         return false;
+    }
+
+    public void add(Coord to_add) {
+        this.x += to_add.x;
+        this.y += to_add.y;
+    }
+
+    public void minus(Coord to_minus) {
+        this.x -= to_minus.x;
+        this.y -= to_minus.y;
     }
 
 }
