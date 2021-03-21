@@ -2,7 +2,7 @@ import java.util.StringJoiner;
 
 public class Tuile extends Coord {
     int value;
-
+    // Couleur
     public Tuile(int x, int y, int value) {
         super(x, y);
         this.value = value;
