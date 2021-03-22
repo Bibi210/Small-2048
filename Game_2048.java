@@ -10,57 +10,31 @@ public class Game_2048 implements KeyListener {
     Tuile[][] grille;
     int gridSize;
 
-    public String toString() {
-        StringJoiner output = new StringJoiner("");
-        for (int i = 0; i < gridSize; i++) {
-            for (int j = 0; j < gridSize; j++) {
-                Coord EnCours = new Coord(i, j);
-                output.add(String.format("[%3d]", getTuileValue(EnCours)));
-            }
-            output.add("\n");
-        }
-        return output.toString();
-    }
-
-    private boolean addtuile(int nbtuiles) {
-        for (int i = 0; i < nbtuiles; i++) {
-            // Liste de possibiliter
-            List<Coord> possibiliter = new ArrayList<Coord>();
-            Coord OnePosition;
-            // Ajout de toutes les tuile vide dans la liste
-            for (Tuile[] Colonne : grille) {
-                for (Tuile tuile : Colonne) {
-                    if (tuile.value == 0) {
-                        OnePosition = new Coord(tuile.x, tuile.y);
-                        possibiliter.add(OnePosition);
-                    }
-                }
-            }
-            // ? Si il n'y a pas de possibliter fin du jeu ?
-            if (possibiliter.size() == 0)
-                return false;
-            Random rand = new Random();
-            int newvalue = rand.nextInt(4) >= 2 ? 2 : 4;
-            OnePosition = possibiliter.get(rand.nextInt(possibiliter.size()));
-            setTuileValue(OnePosition, newvalue);
-        }
-        return true;
-    }
-
     public Game_2048(int gridSize) {
         this.grille = new Tuile[gridSize][gridSize];
         this.gridSize = gridSize;
         init_game();
     }
 
-    private void init_game() {
-        for (int i = 0; i < gridSize; i++) {
-            for (int j = 0; j < gridSize; j++) {
-                grille[i][j] = new Tuile(i, j, 0);
-            }
+    // * Game Related Functions *//
+    @Override
+    public void keyReleased(KeyEvent Key) {
+        switch (Key.getKeyCode()) {
+        case KeyEvent.VK_UP:
+            turn(Coord.UP);
+            break;
+        case KeyEvent.VK_DOWN:
+            turn(Coord.DOWN);
+            break;
+        case KeyEvent.VK_LEFT:
+            turn(Coord.LEFT);
+            break;
+        case KeyEvent.VK_RIGHT:
+            turn(Coord.RIGHT);
+            break;
+        default:
+            break;
         }
-        addtuile(2);
-        System.out.println(this);
 
     }
 
@@ -79,6 +53,17 @@ public class Game_2048 implements KeyListener {
         System.out.println("Fin du jeu!");
         System.out.println(this);
         System.exit(0);
+    }
+
+    private void init_game() {
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                grille[i][j] = new Tuile(i, j, 0);
+            }
+        }
+        addtuile(2);
+        System.out.println(this);
+
     }
 
     private int move(Coord movement) {
@@ -125,6 +110,33 @@ public class Game_2048 implements KeyListener {
         }
     }
 
+    private boolean addtuile(int nbtuiles) {
+        for (int i = 0; i < nbtuiles; i++) {
+            // Liste de possibiliter
+            List<Coord> possibiliter = new ArrayList<Coord>();
+            Coord OnePosition;
+            // Ajout de toutes les tuile vide dans la liste
+            for (Tuile[] Colonne : grille) {
+                for (Tuile tuile : Colonne) {
+                    if (tuile.value == 0) {
+                        OnePosition = new Coord(tuile.x, tuile.y);
+                        possibiliter.add(OnePosition);
+                    }
+                }
+            }
+            // ? Si il n'y a pas de possibliter fin du jeu ?
+            if (possibiliter.size() == 0)
+                return false;
+            Random rand = new Random();
+            int newvalue = rand.nextInt(4) >= 2 ? 2 : 4;
+            OnePosition = possibiliter.get(rand.nextInt(possibiliter.size()));
+            setTuileValue(OnePosition, newvalue);
+        }
+        return true;
+    }
+    // * Game Related Functions *//
+
+    // * Quality Of Life Functions //*
     private Tuile getTuile(Coord Where) {
         return grille[Where.x][Where.y];
     }
@@ -149,31 +161,24 @@ public class Game_2048 implements KeyListener {
         setTuileValue(TuileA, newvalue);
         setTuileValue(TuileB, 0);
     }
+    // * Quality Of Life Functions //*
 
-    @Override
-    public void keyReleased(KeyEvent Key) {
-        switch (Key.getKeyCode()) {
-        case KeyEvent.VK_UP:
-            turn(Coord.UP);
-            break;
-        case KeyEvent.VK_DOWN:
-            turn(Coord.DOWN);
-            break;
-        case KeyEvent.VK_LEFT:
-            turn(Coord.LEFT);
-            break;
-        case KeyEvent.VK_RIGHT:
-            turn(Coord.RIGHT);
-            break;
-        default:
-            break;
+    // * First Display Shot *//
+    public String toString() {
+        StringJoiner output = new StringJoiner("");
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                Coord EnCours = new Coord(i, j);
+                output.add(String.format("[%3d]", getTuileValue(EnCours)));
+            }
+            output.add("\n");
         }
-
+        return output.toString();
     }
+    // * First Display Shot *//
 
     @Override
     public void keyPressed(KeyEvent arg0) {
-        
     }
 
     @Override
