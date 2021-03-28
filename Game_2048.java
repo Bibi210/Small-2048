@@ -5,8 +5,11 @@ import java.util.StringJoiner;
 
 import javax.swing.SwingUtilities;
 
-// TODO: Change l'orientation
-// TODO: Corrige bug fusion
+// TODO B: Change l'orientation
+// TODO B: Corrige bug fusion
+
+// TODO Q: Affichage score
+// TODO Q: Implémente nouvelle partie
 
 public class Game_2048 {
 
