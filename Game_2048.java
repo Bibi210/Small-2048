@@ -2,10 +2,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.StringJoiner;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-public class Game_2048 implements KeyListener {
+import javax.swing.SwingUtilities;
+
+// TODO: Change l'orientation
+// TODO: Corrige bug fusion
+
+public class Game_2048 {
 
     Tuile[][] grille;
     int gridSize;
@@ -16,29 +19,7 @@ public class Game_2048 implements KeyListener {
         init_game();
     }
 
-    // * Game Related Functions *//
-    @Override
-    public void keyReleased(KeyEvent Key) {
-        switch (Key.getKeyCode()) {
-        case KeyEvent.VK_UP:
-            turn(Coord.UP);
-            break;
-        case KeyEvent.VK_DOWN:
-            turn(Coord.DOWN);
-            break;
-        case KeyEvent.VK_LEFT:
-            turn(Coord.LEFT);
-            break;
-        case KeyEvent.VK_RIGHT:
-            turn(Coord.RIGHT);
-            break;
-        default:
-            break;
-        }
-
-    }
-
-    private void turn(Coord Sens) {
+    public void turn(Coord Sens) {
         if (move(Sens) > 0) {
             fusion_all(Sens);
             move(Sens);
@@ -116,8 +97,8 @@ public class Game_2048 implements KeyListener {
             List<Coord> possibiliter = new ArrayList<Coord>();
             Coord OnePosition;
             // Ajout de toutes les tuile vide dans la liste
-            for (Tuile[] Colonne : grille) {
-                for (Tuile tuile : Colonne) {
+            for (Tuile[] Colonne : grille) { 
+                for (Tuile tuile : Colonne) { 
                     if (tuile.value == 0) {
                         OnePosition = new Coord(tuile.x, tuile.y);
                         possibiliter.add(OnePosition);
@@ -137,7 +118,7 @@ public class Game_2048 implements KeyListener {
     // * Game Related Functions *//
 
     // * Quality Of Life Functions //*
-    private Tuile getTuile(Coord Where) {
+    public Tuile getTuile(Coord Where) {
         return grille[Where.x][Where.y];
     }
 
@@ -175,19 +156,19 @@ public class Game_2048 implements KeyListener {
         }
         return output.toString();
     }
-    // * First Display Shot *//
 
-    @Override
-    public void keyPressed(KeyEvent arg0) {
-    }
-
-    @Override
-    public void keyTyped(KeyEvent arg0) {
-
-    }
 
     public static void main(String[] args) {
-        Game_2048 Plateau = new Game_2048(4);
+        int gridSize = 3;
+        Game_2048 Plateau = new Game_2048(gridSize);
 
+        // Lance la fenêtre
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                Win win = new Win("2048", gridSize, Plateau);
+                win.grid.updateGrid(Plateau.grille);
+            }
+        });
     }
 }
