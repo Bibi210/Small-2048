@@ -41,6 +41,7 @@ public class Game_2048 {
                 System.out.println(this);
                 endgame();
             }
+            count_score();
             System.out.println(this);
         } else {
             if (!Move_tried.contains(Sens)) {
@@ -69,6 +70,7 @@ public class Game_2048 {
         }
         rst -= coup_jouer;
         rst /= gridSize;
+        score = rst;
         return rst;
     }
 
