@@ -18,7 +18,7 @@ public class Grid extends JPanel{
         for (int i = 0; i < xnbCell; i++) {
             for (int j = 0; j < ynbCell; j++) {
                 Cell cell = new Cell(new Color(125, 125, 125));
-                this.cells[i][j] = cell;
+                this.cells[j][i] = cell;
                 gbc.gridx = i;
                 gbc.gridy = j;
                 this.add(cell, gbc);              
@@ -29,7 +29,7 @@ public class Grid extends JPanel{
     public void updateGrid(Tuile [][] grid) {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid.length; j++) {
-                this.cells[i][j].setCellText(grid[i][j].value);
+                this.cells[j][i].setCellText(grid[j][i].value);
             }
         }
     }

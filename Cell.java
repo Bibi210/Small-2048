@@ -5,7 +5,7 @@ import javax.swing.border.Border;
 import java.awt.Color;
 import java.awt.Dimension;
 
-public class Cell extends JLabel{
+public class Cell extends JLabel {
     private static final long serialVersionUID = 1L;
 
     Color clr;
@@ -13,7 +13,6 @@ public class Cell extends JLabel{
     public Cell(Color c) {
         Border border = BorderFactory.createLineBorder(Color.DARK_GRAY, 3, false);
         clr = c;
-       
         this.setText("");
         this.setHorizontalAlignment(JLabel.CENTER);
         this.setVerticalAlignment(JLabel.CENTER);
@@ -24,6 +23,11 @@ public class Cell extends JLabel{
     }
 
     public void setCellText(int value) {
-        this.setText("" + value);
+        if (value != 0) {
+            this.setText("" + value);
+        }
+        else{
+            this.setText("");
+        }
     }
 }
