@@ -2,13 +2,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.StringJoiner;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-public class Game_2048 implements KeyListener {
+import javax.swing.SwingUtilities;
+
+// TODO Q: Affichage score
+// TODO Q: Implémente nouvelle partie
+
+public class Game_2048 {
 
     Tuile[][] grille;
     int gridSize;
+    long score;
+    long coup_jouer;
+    List <Coord> Move_tried;
 
     public Game_2048(int gridSize) {
         this.grille = new Tuile[gridSize][gridSize];
@@ -16,43 +22,52 @@ public class Game_2048 implements KeyListener {
         init_game();
     }
 
-    // * Game Related Functions *//
-    @Override
-    public void keyReleased(KeyEvent Key) {
-        switch (Key.getKeyCode()) {
-        case KeyEvent.VK_UP:
-            turn(Coord.UP);
-            break;
-        case KeyEvent.VK_DOWN:
-            turn(Coord.DOWN);
-            break;
-        case KeyEvent.VK_LEFT:
-            turn(Coord.LEFT);
-            break;
-        case KeyEvent.VK_RIGHT:
-            turn(Coord.RIGHT);
-            break;
-        default:
-            break;
-        }
-
-    }
-
-    private void turn(Coord Sens) {
+    public void turn(Coord Sens) {
+        boolean is_turn_valid = false;
         if (move(Sens) > 0) {
             fusion_all(Sens);
             move(Sens);
+            is_turn_valid = true;
+        } else if (fusion_all(Sens) > 0) {
+            is_turn_valid = true;
+        }
+        if (is_turn_valid) {
+            Move_tried = new ArrayList<>();
+            coup_jouer++;
             if (!addtuile(1)) {
+                System.out.println(this);
                 endgame();
             }
             System.out.println(this);
+        }
+        else {
+            if (!Move_tried.contains(Sens)){
+                Move_tried.add(Sens);
+            }
+            if (Move_tried.size() == 4) {
+                endgame();
+            }
         }
     }
 
     private void endgame() {
         System.out.println("Fin du jeu!");
+        System.out.println("Votre Score est de :" + count_score());
         System.out.println(this);
         System.exit(0);
+    }
+
+    private long count_score() {
+        long rst = 0;
+        for (int x = 0; x < grille.length; x++) {
+            for (int y = 0; y < grille[x].length; y++) {
+                Coord Current_Tuile = new Coord(x, y);
+                rst += getTuileValue(Current_Tuile);
+            }
+        }
+        rst -= coup_jouer;
+        rst /= gridSize;
+        return rst;
     }
 
     private void init_game() {
@@ -61,6 +76,8 @@ public class Game_2048 implements KeyListener {
                 grille[i][j] = new Tuile(i, j, 0);
             }
         }
+        score = 0;
+        coup_jouer = 0;
         addtuile(2);
         System.out.println(this);
 
@@ -92,7 +109,8 @@ public class Game_2048 implements KeyListener {
         return move_made;
     }
 
-    private void fusion_all(Coord movement) {
+    private int fusion_all(Coord movement) {
+        int fusion_done = 0;
         for (int i = 0; i < gridSize; i++) {
             for (int j = 0; j < gridSize; j++) {
                 Coord EnCours = grille[i][j];
@@ -104,10 +122,12 @@ public class Game_2048 implements KeyListener {
                     }
                     if (getTuileValue(NewCoord) == getTuileValue(EnCours)) {
                         fusionTuile_B_into_A(NewCoord, EnCours);
+                        fusion_done++;
                     }
                 }
             }
         }
+        return fusion_done;
     }
 
     private boolean addtuile(int nbtuiles) {
@@ -137,7 +157,7 @@ public class Game_2048 implements KeyListener {
     // * Game Related Functions *//
 
     // * Quality Of Life Functions //*
-    private Tuile getTuile(Coord Where) {
+    public Tuile getTuile(Coord Where) {
         return grille[Where.x][Where.y];
     }
 
@@ -175,19 +195,18 @@ public class Game_2048 implements KeyListener {
         }
         return output.toString();
     }
-    // * First Display Shot *//
-
-    @Override
-    public void keyPressed(KeyEvent arg0) {
-    }
-
-    @Override
-    public void keyTyped(KeyEvent arg0) {
-
-    }
 
     public static void main(String[] args) {
-        Game_2048 Plateau = new Game_2048(4);
+        int gridSize = 3;
+        Game_2048 Plateau = new Game_2048(gridSize);
 
+        // Lance la fenêtre
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                Win win = new Win("2048", gridSize, Plateau);
+                win.grid.updateGrid(Plateau.grille);
+            }
+        });
     }
 }
