@@ -1,3 +1,5 @@
+package projet_final.Graph_Related;
+
 import java.awt.Color;
 import java.awt.event.*;
 
@@ -6,15 +8,18 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import projet_final.Game_Data.Game_2048;
+import projet_final.Game_Data.Coord;
+
 public class Win extends JFrame implements KeyListener {
     private static final long serialVersionUID = 1L;
 
     static int WinSize = 600;
 
-    Grid grid;
+    public Grid grid;
     Game_2048 plt;
 
-    Win(String title, int gridSize, Game_2048 plateau) {
+    public Win(String title, int gridSize, Game_2048 plateau) {
         grid = new Grid(gridSize, gridSize);
         plt = plateau;
 

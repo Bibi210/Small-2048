@@ -1,20 +1,21 @@
+package projet_final.Game_Data;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.StringJoiner;
 
-import javax.swing.SwingUtilities;
-
 // TODO Q: Affichage score
 // TODO Q: Implémente nouvelle partie
 
+/// Le jeu dans le terminal
 public class Game_2048 {
 
-    Tuile[][] grille;
+    public Tuile[][] grille;
     int gridSize;
     long score;
     long coup_jouer;
-    List <Coord> Move_tried;
+    List<Coord> Move_tried;
 
     public Game_2048(int gridSize) {
         this.grille = new Tuile[gridSize][gridSize];
@@ -22,6 +23,7 @@ public class Game_2048 {
         init_game();
     }
 
+    // * Game Related Functions *//
     public void turn(Coord Sens) {
         boolean is_turn_valid = false;
         if (move(Sens) > 0) {
@@ -29,6 +31,7 @@ public class Game_2048 {
             move(Sens);
             is_turn_valid = true;
         } else if (fusion_all(Sens) > 0) {
+            move(Sens);
             is_turn_valid = true;
         }
         if (is_turn_valid) {
@@ -39,9 +42,8 @@ public class Game_2048 {
                 endgame();
             }
             System.out.println(this);
-        }
-        else {
-            if (!Move_tried.contains(Sens)){
+        } else {
+            if (!Move_tried.contains(Sens)) {
                 Move_tried.add(Sens);
             }
             if (Move_tried.size() == 4) {
@@ -183,7 +185,7 @@ public class Game_2048 {
     }
     // * Quality Of Life Functions //*
 
-    // * First Display Shot *//
+    // * Debug Display *//
     public String toString() {
         StringJoiner output = new StringJoiner("");
         for (int i = 0; i < gridSize; i++) {
@@ -196,17 +198,4 @@ public class Game_2048 {
         return output.toString();
     }
 
-    public static void main(String[] args) {
-        int gridSize = 3;
-        Game_2048 Plateau = new Game_2048(gridSize);
-
-        // Lance la fenêtre
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                Win win = new Win("2048", gridSize, Plateau);
-                win.grid.updateGrid(Plateau.grille);
-            }
-        });
-    }
 }

@@ -1,11 +1,14 @@
+package projet_final.Game_Data;
+
 import java.util.Objects;
 
+/// Gestion de Coordonnées
 public class Coord {
     int x, y;
-    static final Coord LEFT = new Coord(0, -1);
-    static final Coord RIGHT = new Coord(0, 1);
-    static final Coord UP = new Coord(-1, 0);
-    static final Coord DOWN = new Coord(1, 0);
+    public static final Coord LEFT = new Coord(0, -1);
+    public static final Coord RIGHT = new Coord(0, 1);
+    public static final Coord UP = new Coord(-1, 0);
+    public static final Coord DOWN = new Coord(1, 0);
 
     public Coord(int x, int y) {
         this.x = x;

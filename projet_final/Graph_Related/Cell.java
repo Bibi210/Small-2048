@@ -1,6 +1,8 @@
+package projet_final.Graph_Related;
+
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import javax.swing.border.Border;   
+import javax.swing.border.Border;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -25,8 +27,7 @@ public class Cell extends JLabel {
     public void setCellText(int value) {
         if (value != 0) {
             this.setText("" + value);
-        }
-        else{
+        } else {
             this.setText("");
         }
     }

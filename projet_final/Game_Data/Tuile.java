@@ -1,7 +1,12 @@
+package projet_final.Game_Data;
+
 import java.util.StringJoiner;
 
+/// Une extention de Coord avec un affichage et une valeur
 public class Tuile extends Coord {
-    int value;
+
+    public int value;
+
     // Couleur
     public Tuile(int x, int y, int value) {
         super(x, y);
