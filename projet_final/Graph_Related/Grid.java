@@ -10,6 +10,7 @@ public class Grid extends JPanel {
     GridBagConstraints gbc = new GridBagConstraints();
 
     Cell[][] cells;
+    Color color;
 
     // Use JPanel that containes all the cells
     public Grid(int xnbCell, int ynbCell) {
@@ -20,7 +21,7 @@ public class Grid extends JPanel {
 
         for (int i = 0; i < xnbCell; i++) {
             for (int j = 0; j < ynbCell; j++) {
-                Cell cell = new Cell(new Color(125, 125, 125));
+                Cell cell = new Cell();
                 this.cells[j][i] = cell;
                 gbc.gridx = i;
                 gbc.gridy = j;
@@ -33,6 +34,9 @@ public class Grid extends JPanel {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid.length; j++) {
                 this.cells[j][i].setCellText(grid[j][i].value);
+
+                this.color = Cell.assignColor(grid[i][j].value);
+                this.cells[i][j].setBackground(new Color(color.getRed(), color.getGreen(), color.getBlue()));
             }
         }
     }

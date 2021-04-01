@@ -5,14 +5,13 @@ import java.util.List;
 import java.util.Random;
 import java.util.StringJoiner;
 
-// TODO Q: Affichage score
-// TODO Q: Implémente nouvelle partie
+import projet_final.Launch;
 
 /// Le jeu dans le terminal
 public class Game_2048 {
 
     public Tuile[][] grille;
-    int gridSize;
+    public int gridSize;
     long score;
     long coup_jouer;
     List<Coord> Move_tried;
@@ -57,10 +56,10 @@ public class Game_2048 {
         System.out.println("Fin du jeu!");
         System.out.println("Votre Score est de :" + count_score());
         System.out.println(this);
-        System.exit(0);
+        // Launch.showHighScore(); //! Je te laisse voir comment t'arrange ça
     }
 
-    private long count_score() {
+    public long count_score() {
         long rst = 0;
         for (int x = 0; x < grille.length; x++) {
             for (int y = 0; y < grille[x].length; y++) {

@@ -1,23 +1,31 @@
 package projet_final.Graph_Related;
 
 import java.awt.Color;
-import java.awt.event.*;
+import java.awt.event.KeyListener;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
+import javax.swing.Box;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import projet_final.Game_Data.Game_2048;
 import projet_final.Game_Data.Coord;
+import projet_final.Launch;
 
 public class Win extends JFrame implements KeyListener {
     private static final long serialVersionUID = 1L;
 
     static int WinSize = 600;
 
-    public Grid grid;
     Game_2048 plt;
+    public Grid grid;
+    JLabel score_label = new JLabel("Score:          ");
+    int score;
 
     public Win(String title, int gridSize, Game_2048 plateau) {
         grid = new Grid(gridSize, gridSize);
@@ -43,9 +51,29 @@ public class Win extends JFrame implements KeyListener {
         JMenu file = new JMenu("File");
 
         JMenuItem new_game = new JMenuItem("New Game");
+        JMenuItem high_score = new JMenuItem("High Score");
 
         menuBar.add(file);
+        
         file.add(new_game);
+        new_game.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                newGame(Launch.getGridSize());
+            }
+        });
+
+        file.add(high_score);
+        high_score.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Launch.showHighScore();
+            }
+        });
+
+        menuBar.add(Box.createGlue());
+
+        menuBar.add(score_label);
 
         return menuBar;
     }
@@ -74,10 +102,27 @@ public class Win extends JFrame implements KeyListener {
             break;
         }
         this.grid.updateGrid(plt.grille);
+        score = (int) plt.count_score();
+        this.setScore(score);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    public void setScore(int scr) {
+        this.score_label.setText("Score:  " + scr + "       ");
+    }
+
+    public void newGame(int size) {
+        this.getContentPane().remove(grid);
+        plt = new Game_2048(size);
+        grid = new Grid(size, size);
+        this.getContentPane().add(grid);
+        this.grid.updateGrid(plt.grille);
+        this.pack();
+        this.invalidate();
+        this.validate();
     }
 }
