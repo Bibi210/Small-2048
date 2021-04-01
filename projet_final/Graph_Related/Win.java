@@ -2,9 +2,15 @@ package projet_final.Graph_Related;
 
 import java.awt.Color;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 
 import javax.swing.Box;
 import javax.swing.JFrame;
@@ -12,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import projet_final.Game_Data.Game_2048;
 import projet_final.Game_Data.Coord;
@@ -45,16 +52,21 @@ public class Win extends JFrame implements KeyListener {
         this.pack();
     }
 
+    public static void showHighScore() throws IOException {
+        String scores = Files.readString(Path.of("projet_final","Game_Data","Game_Scores"));
+        JOptionPane.showMessageDialog(null, scores, "High Score", JOptionPane.PLAIN_MESSAGE);
+    }
+
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
 
-        JMenu file = new JMenu("File");
+        JMenu file = new JMenu("Menu");
 
         JMenuItem new_game = new JMenuItem("New Game");
         JMenuItem high_score = new JMenuItem("High Score");
 
         menuBar.add(file);
-        
+
         file.add(new_game);
         new_game.addActionListener(new ActionListener() {
             @Override
@@ -67,7 +79,11 @@ public class Win extends JFrame implements KeyListener {
         high_score.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Launch.showHighScore();
+                try {
+                    Win.showHighScore();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -87,16 +103,32 @@ public class Win extends JFrame implements KeyListener {
     public void keyPressed(KeyEvent Key) {
         switch (Key.getKeyCode()) {
         case KeyEvent.VK_UP:
-            plt.turn(Coord.UP);
+            try {
+                plt.turn(Coord.UP);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             break;
         case KeyEvent.VK_DOWN:
-            plt.turn(Coord.DOWN);
+            try {
+                plt.turn(Coord.DOWN);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             break;
         case KeyEvent.VK_LEFT:
-            plt.turn(Coord.LEFT);
+            try {
+                plt.turn(Coord.LEFT);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             break;
         case KeyEvent.VK_RIGHT:
-            plt.turn(Coord.RIGHT);
+            try {
+                plt.turn(Coord.RIGHT);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             break;
         default:
             break;
@@ -114,6 +146,7 @@ public class Win extends JFrame implements KeyListener {
     public void setScore(int scr) {
         this.score_label.setText("Score:  " + scr + "       ");
     }
+
 
     public void newGame(int size) {
         this.getContentPane().remove(grid);

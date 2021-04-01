@@ -22,7 +22,7 @@ public class Launch {
     }
 
     public static int getGridSize() {
-        String grid_size = JOptionPane.showInputDialog(null, "Select a grid size (e.g. 3x3)", "New game",
+        String grid_size = JOptionPane.showInputDialog(null, "Select a grid size (e.g. 3)", "New game",
                 JOptionPane.QUESTION_MESSAGE);
         int gs = 3;
         try {
@@ -34,15 +34,5 @@ public class Launch {
         return gs;
     }
 
-    // J'ai mis la fonction la par défault mais tu peux la bouger ou tu veux
-    public static void showHighScore(/* Je te laisse mettre le paramètre que tu veux*/) {
-        String scores = "High scores:\n46516\n6448"; // format les scores en une string de ce style
-        /*
-         * si t'as une meilleure idée pour présenter le score fais comme tu le sens faut
-         * juste que ce soit une string au final
-         */
-        JOptionPane.showMessageDialog(null, scores, "High Score", JOptionPane.PLAIN_MESSAGE);
-    }
-    // PS: cette fonction je l'ai appelé dans Win dans la fonction "createMenuBar"
-    // et dans Game_2048 dans la fonction "endgame"
+    
 }

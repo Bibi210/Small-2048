@@ -23,3 +23,11 @@
   Bonus  | - Classement des meilleures parties
 <br></br>
 > Brahima Dibassi / Quentin Epron
+
+### Lancer Le Programme
+
+- `git clone https://code.up8.edu/BrahimaDibassi/\2048-java`
+- `A la racine faire javac $(find . -name '*.java')`
+- `Lancer Le fichier Launch`
+- `Choisir la Taille de la Grille`
+- `Have Fun`

@@ -1,11 +1,15 @@
 package projet_final.Game_Data;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.StringJoiner;
 
-import projet_final.Launch;
+import javax.swing.JOptionPane;
 
 /// Le jeu dans le terminal
 public class Game_2048 {
@@ -23,7 +27,7 @@ public class Game_2048 {
     }
 
     // * Game Related Functions *//
-    public void turn(Coord Sens) {
+    public void turn(Coord Sens) throws IOException {
         boolean is_turn_valid = false;
         if (move(Sens) > 0) {
             fusion_all(Sens);
@@ -52,11 +56,15 @@ public class Game_2048 {
         }
     }
 
-    private void endgame() {
+    private void endgame() throws IOException {
         System.out.println("Fin du jeu!");
         System.out.println("Votre Score est de :" + count_score());
         System.out.println(this);
-        // Launch.showHighScore(); //! Je te laisse voir comment t'arrange ça
+        Files.write(Paths.get("projet_final/Game_Data/Game_Scores"), (Long.toString(score)+"\n").getBytes(), StandardOpenOption.APPEND);
+
+        String fin = "Votre Score est de :" + Long.toString(count_score());
+        JOptionPane.showMessageDialog(null, fin, "Fin De la Partie", JOptionPane.PLAIN_MESSAGE);
+        init_game();
     }
 
     public long count_score() {
